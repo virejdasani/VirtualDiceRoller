@@ -1,0 +1,24 @@
+//For Publishing:
+
+Virtual Dice Roller PRO (Free)
+
+
+
+Short Description:
+
+This is a fun, minimal app, for the perfect board game experience!
+
+
+
+Long Description:
+
+Say goodbye to dice falling on the floor or underneath the couch!
+This is a fun, minimal, amoled friendly app, for the perfect board game experience!
+It has a black background that is easy on the eyes and helps for prolonged battery life.
+Virtual Dice Roller PRO comes with 5 different dice:
+1) Classic 6 sided dice
+2) 8 sided dice
+3) 10 sided dice
+4) 12 sided dice
+5) 24 sided dice
+Your board game experience will never be boring again!
