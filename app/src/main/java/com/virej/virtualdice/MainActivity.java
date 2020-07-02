@@ -6,10 +6,18 @@ package com.virej.virtualdice;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,16 +31,23 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ObjectAnimator anim;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        //this is for the sound of the dice it starts in the OnCLickListener in the roll button
+        final MediaPlayer diceSoundMP = MediaPlayer.create(this, R.raw.dicerollvirtualdicesound);
 
 
         //This is the admob initialiser
@@ -73,17 +88,43 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.dice5,
                 R.drawable.dice6
         };
+
+
+
+
         //This is an OnClickListener for the roll button. When it is clicked, a random picture from the array is taken
         //It happens for both the left and right dice
         rollbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                diceSoundMP.start();
+
+                //animation left dice
+                anim = ObjectAnimator.ofFloat(leftdice, "rotation", 0, 360);
+                anim.setDuration(650);
+                anim.setRepeatCount(0);
+                anim.setRepeatMode(ObjectAnimator.RESTART);
+                startAnimation(leftdice);
+
+                //animation right dice
+                anim = ObjectAnimator.ofFloat(rightdice, "rotation", 0, 360);
+                anim.setDuration(650);
+                anim.setRepeatCount(0);
+                anim.setRepeatMode(ObjectAnimator.RESTART);
+                startAnimation(rightdice);
+
+
+
                 Log.d("dicee", "onClick:rollbutton pressed ");
                 Random randomnumber = new Random();
                 int number = randomnumber.nextInt(6);
                 Log.d("dicee", "onClick: random number is: "+ number);
 
+
                 leftdice.setImageResource(dicearray[number]);
+
+
 
                 randomnumber = new Random();
                 int newnumber = randomnumber.nextInt(6);
@@ -119,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+    public void startAnimation(View view) {
+        anim.start();
     }
 
 

@@ -2,7 +2,9 @@ package com.virej.virtualdice;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +21,14 @@ import java.util.Random;
 
 public class TwelveSideActivity extends AppCompatActivity {
 
+    private ObjectAnimator anim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twelve_side);
+
+        final MediaPlayer diceSoundMP = MediaPlayer.create(this, R.raw.dicerollvirtualdicesound);
 
 
         //This is the admob initialiser
@@ -68,6 +74,14 @@ public class TwelveSideActivity extends AppCompatActivity {
         rollbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                diceSoundMP.start();
+
+                anim = ObjectAnimator.ofFloat(twelvesidedice, "rotation", 0, 360);
+                anim.setDuration(600);
+                anim.setRepeatCount(0);
+                anim.setRepeatMode(ObjectAnimator.RESTART);
+                startAnimation(twelvesidedice);
+
                 Log.d("virtualdice", "onClick:rollbutton pressed ");
                 Random randomnumber = new Random();
                 int number = randomnumber.nextInt(12);
@@ -100,5 +114,8 @@ public class TwelveSideActivity extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
+    }
+    public void startAnimation(View view) {
+        anim.start();
     }
 }

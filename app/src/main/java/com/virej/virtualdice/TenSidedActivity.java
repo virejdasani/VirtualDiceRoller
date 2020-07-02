@@ -2,8 +2,10 @@ package com.virej.virtualdice;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,10 +22,14 @@ import java.util.Random;
 
 public class TenSidedActivity extends AppCompatActivity {
 
+    private ObjectAnimator anim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ten_sided);
+
+        final MediaPlayer diceSoundMP = MediaPlayer.create(this, R.raw.dicerollvirtualdicesound);
 
 
         //This is the admob initialiser
@@ -32,7 +38,7 @@ public class TenSidedActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        //This is a placed an a dview
+        //This is a placed an adview
         AdView adView = (AdView) findViewById(R.id.adView);
 
         //This is to request an ad
@@ -83,6 +89,15 @@ public class TenSidedActivity extends AppCompatActivity {
         rollbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                anim = ObjectAnimator.ofFloat(tensideddicedefault, "rotation", 0, 360);
+                anim.setDuration(600);
+                anim.setRepeatCount(0);
+                anim.setRepeatMode(ObjectAnimator.RESTART);
+                startAnimation(tensideddicedefault);
+
+                diceSoundMP.start();
+
                 Log.d("virtualdice", "onClick:rollbutton pressed ");
                 Random randomnumber = new Random();
                 int number = randomnumber.nextInt(10);
@@ -92,4 +107,9 @@ public class TenSidedActivity extends AppCompatActivity {
 
 
     }
-});}}
+});
+    }
+    public void startAnimation(View view) {
+        anim.start();
+    }
+}
